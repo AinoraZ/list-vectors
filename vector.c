@@ -35,9 +35,12 @@ vector* new_vector(){
 		@return		Address to new vector or NULL
 		@output 	NONE
 	*/
+
 	vector *info = (vector*) malloc(sizeof(vector));
+
 	if(info == NULL)
 		return info;
+
 	(info)->head = NULL;
 	(info)->tail = NULL;
 	(info)->size = 0;
@@ -77,7 +80,6 @@ int size(int *out, vector *info){
 		return 1;
 
 	*out = info->size;
-
 	return 0;
 }
 
@@ -91,8 +93,10 @@ int is_full(){
 	*/
 
 	elem *node = (elem*) malloc(sizeof(elem));
+
 	if(node == NULL)
 		return 1;
+
 	free(node);
 	return 0;
 }
@@ -132,14 +136,14 @@ int get_all(int **out, vector *info){
 	if(info == NULL || out == NULL)
 		return 1;
 
-	if(__empty(info))
+	if(__empty(info) == 1)
 		return 1;
 
 	*out = (int*) malloc(sizeof(int) * info->size);
 	if(*out == NULL)
 		return 1;
-	node = info->head;
 
+	node = info->head;
 	for(counter = 0; counter < info->size; counter++){
 		(*out)[counter] = node->value;
 		node = node->next;
@@ -174,6 +178,17 @@ int get(unsigned int index, int *out, vector *info){
 }
 
 int push(int value, vector *info){
+	/*
+		Inserts value to the end of the vector
+
+		@param:		value to store, address of vector
+		@return:	1 on error or 0 on success
+		@output: 	NONE
+	*/
+
+	if(info == NULL)
+		return 1;
+
 	return insert(info->size, value, info);
 }
 
@@ -186,7 +201,7 @@ int pop(int *out, vector *info){
 		@output: 	value of last element or not changed
 	*/
 
-	if(out == NULL)
+	if(out == NULL || info == NULL)
 		return 1;
 
 	return remove_and_return((info->size) - 1, out, info);
@@ -218,9 +233,8 @@ int insert(unsigned int index, int value, vector *info){
 
 	node->value = value;
 	node->next = NULL;
-
 	if(index == 0){							/* Inserting to 1st position */
-		if(__empty(info)){					/* To empty array */
+		if(__empty(info) == 1){				/* To empty array */
 			info->head = node;
 			info->tail = node;
 			(info->size)++;
@@ -247,7 +261,6 @@ int insert(unsigned int index, int value, vector *info){
 	prev->next = node;
 	node->next = temp_node;
 	(info->size)++;
-
 	return 0;
 }
 
@@ -275,7 +288,6 @@ int set(unsigned int index, int value, vector *info){
 		return 1;
 
 	node->value = value;
-
 	return 0;
 }
 
@@ -326,7 +338,6 @@ int remove_element(unsigned int index, vector *info){
 
 	free(temp_node);
 	(info->size)--;
-
 	return 0;
 }
 
@@ -355,6 +366,7 @@ int remove_and_return(unsigned int index, int *out, vector *info){
 	err = remove_element(index, info);
 	if(err == 0)
 		*out = value;
+
 	return err;
 }
 
@@ -372,7 +384,7 @@ int remove_all(vector *info){
 	if(info == NULL)
 		return 1;
 
-	if(__empty(info))
+	if(__empty(info) == 1)
 		return 0;
 
 	if(info->size == 1){
@@ -395,7 +407,6 @@ int remove_all(vector *info){
 	free(node);
 	info->head = NULL;
 	info->tail = NULL;
-
 	return 0;
 }
 
@@ -407,10 +418,11 @@ int safe_free(vector **info){
 		@return:	1 on error or 0 on success
 		@output: 	pointer to vector is set to NULL or not changed
 	*/
+
 	if(*info == NULL)
 		return 1;
 
-	if(remove_all(*info))
+	if(remove_all(*info) == 1)
 		return 1;
 
 	free(*info);
