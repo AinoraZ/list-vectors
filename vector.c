@@ -31,9 +31,9 @@ vector* new_vector(){
 	/*
 		Creates new vector containing head, tail and size information
 
-		@param	NONE
-		@return	Address to new vector or NULL
-		@output NONE
+		@param		NONE
+		@return		Address to new vector or NULL
+		@output 	NONE
 	*/
 	vector *info = (vector*) malloc(sizeof(vector));
 	if(info == NULL)
@@ -52,9 +52,9 @@ int is_empty(int *out, vector *info){
 	/*
 		Checks if vector is empty
 
-		@param	address of int for output, address of vector
-		@return	1 on error or 0 on success
-		@output 1 on empty or 0 on not empty
+		@param		address of int for output, address of vector
+		@return		1 on error or 0 on success
+		@output	 	1 on empty or 0 on not empty
 	*/
 
 	if(info == NULL || out == NULL)
@@ -68,16 +68,16 @@ int size(int *out, vector *info){
 	/*
 		Checks the size of vector
 
-		@param	address of int for output, address of vector
-		@return	1 on error or 0 on success
-		@output the size of vector or not changed
+		@param		address of int for output, address of vector
+		@return		1 on error or 0 on success
+		@output 	the size of vector or not changed
 	*/
 
 	if(info == NULL || out == NULL)
 		return 1;
 
 	*out = info->size;
-	
+
 	return 0;
 }
 
